@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\mobile_homeController.cs" />
     <Compile Include="Controllers\SejoursController.cs" />
+    <Compile Include="Controllers\tarifsController.cs" />
     <Compile Include="Controllers\type_sejourController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -346,6 +347,11 @@
     <Content Include="Views\mobile_home\Details.cshtml" />
     <Content Include="Views\mobile_home\Edit.cshtml" />
     <Content Include="Views\mobile_home\Index.cshtml" />
+    <Content Include="Views\tarifs\Create.cshtml" />
+    <Content Include="Views\tarifs\Delete.cshtml" />
+    <Content Include="Views\tarifs\Details.cshtml" />
+    <Content Include="Views\tarifs\Edit.cshtml" />
+    <Content Include="Views\tarifs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
