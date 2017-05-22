@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\mobile_homeController.cs" />
     <Compile Include="Controllers\SejoursController.cs" />
     <Compile Include="Controllers\type_sejourController.cs" />
     <Compile Include="Global.asax.cs">
@@ -340,6 +341,11 @@
     <Content Include="Views\type_sejour\Details.cshtml" />
     <Content Include="Views\type_sejour\Edit.cshtml" />
     <Content Include="Views\type_sejour\Index.cshtml" />
+    <Content Include="Views\mobile_home\Create.cshtml" />
+    <Content Include="Views\mobile_home\Delete.cshtml" />
+    <Content Include="Views\mobile_home\Details.cshtml" />
+    <Content Include="Views\mobile_home\Edit.cshtml" />
+    <Content Include="Views\mobile_home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

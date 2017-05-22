@@ -1,0 +1,50 @@
+﻿@model WebLocamer.Models.mobile_home
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>mobile_home</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.code_emplacement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code_emplacement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.capacité)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.capacité)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.terrasse_couverte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.terrasse_couverte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tarif.libelle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tarif.libelle)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_mobile_home }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

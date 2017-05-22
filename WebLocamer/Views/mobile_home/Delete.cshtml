@@ -1,0 +1,56 @@
+﻿@model WebLocamer.Models.mobile_home
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>mobile_home</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.code_emplacement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code_emplacement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.capacité)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.capacité)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.terrasse_couverte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.terrasse_couverte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tarif.libelle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tarif.libelle)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
