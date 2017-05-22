@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebLocamer.Models.Sejour>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.date_debut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_fin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_option)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Client.nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type_sejour.lib_sejour)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_debut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_fin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_option)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type_sejour.lib_sejour)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_sejour }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_sejour }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_sejour })
+        </td>
+    </tr>
+}
+
+</table>
