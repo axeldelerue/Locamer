@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WebLocamer.Models.type_sejour>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.lib_sejour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.coeff)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.lib_sejour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.coeff)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_type }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_type }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_type })
+        </td>
+    </tr>
+}
+
+</table>

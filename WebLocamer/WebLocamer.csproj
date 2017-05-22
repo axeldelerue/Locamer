@@ -201,6 +201,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SejoursController.cs" />
+    <Compile Include="Controllers\type_sejourController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -334,6 +335,11 @@
     <Content Include="Views\Clients\Details.cshtml" />
     <Content Include="Views\Clients\Edit.cshtml" />
     <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\type_sejour\Create.cshtml" />
+    <Content Include="Views\type_sejour\Delete.cshtml" />
+    <Content Include="Views\type_sejour\Details.cshtml" />
+    <Content Include="Views\type_sejour\Edit.cshtml" />
+    <Content Include="Views\type_sejour\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
