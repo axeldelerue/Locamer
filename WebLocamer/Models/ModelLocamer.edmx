@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LocamerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id_client" />
+          </Key>
+          <Property Name="id_client" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" />
+          <Property Name="prenom" Type="varchar" MaxLength="50" />
+          <Property Name="telephone" Type="int" />
+        </EntityType>
+        <EntityType Name="info_option">
+          <Key>
+            <PropertyRef Name="id_option" />
+            <PropertyRef Name="id_sejour" />
+          </Key>
+          <Property Name="quantité" Type="int" />
+          <Property Name="durée" Type="int" />
+          <Property Name="id_option" Type="int" Nullable="false" />
+          <Property Name="id_sejour" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mobile_home">
+          <Key>
+            <PropertyRef Name="id_mobile_home" />
+          </Key>
+          <Property Name="id_mobile_home" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code_emplacement" Type="int" />
+          <Property Name="capacité" Type="int" />
+          <Property Name="id_tarif" Type="int" />
+          <Property Name="terrasse_couverte" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="option">
+          <Key>
+            <PropertyRef Name="id_option" />
+          </Key>
+          <Property Name="libelle_option" Type="varchar" MaxLength="50" />
+          <Property Name="id_option" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prix/jour" Type="int" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="id_sejour" />
+            <PropertyRef Name="id_mobile_home" />
+          </Key>
+          <Property Name="id_sejour" Type="int" Nullable="false" />
+          <Property Name="id_mobile_home" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sejour">
+          <Key>
+            <PropertyRef Name="id_sejour" />
+          </Key>
+          <Property Name="id_sejour" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date_debut" Type="date" />
+          <Property Name="date_fin" Type="date" />
+          <Property Name="id_client" Type="int" />
+          <Property Name="id_tsejour" Type="int" />
+          <Property Name="id_option" Type="int" />
+        </EntityType>
+        <EntityType Name="tarif">
+          <Key>
+            <PropertyRef Name="id_tarif" />
+          </Key>
+          <Property Name="libelle" Type="varchar" MaxLength="50" />
+          <Property Name="id_tarif" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prix/jour" Type="int" />
+        </EntityType>
+        <EntityType Name="type_sejour">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="lib_sejour" Type="varchar" MaxLength="50" />
+          <Property Name="id_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coeff" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_info_option_option">
+          <End Role="option" Type="Self.option" Multiplicity="1" />
+          <End Role="info_option" Type="Self.info_option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="option">
+              <PropertyRef Name="id_option" />
+            </Principal>
+            <Dependent Role="info_option">
+              <PropertyRef Name="id_option" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_info_option_Sejour">
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="1" />
+          <End Role="info_option" Type="Self.info_option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sejour">
+              <PropertyRef Name="id_sejour" />
+            </Principal>
+            <Dependent Role="info_option">
+              <PropertyRef Name="id_sejour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mobile_home_tarif">
+          <End Role="tarif" Type="Self.tarif" Multiplicity="0..1" />
+          <End Role="mobile_home" Type="Self.mobile_home" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tarif">
+              <PropertyRef Name="id_tarif" />
+            </Principal>
+            <Dependent Role="mobile_home">
+              <PropertyRef Name="id_tarif" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_mobile_home">
+          <End Role="mobile_home" Type="Self.mobile_home" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mobile_home">
+              <PropertyRef Name="id_mobile_home" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="id_mobile_home" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Sejour">
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sejour">
+              <PropertyRef Name="id_sejour" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="id_sejour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sejour_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id_client" />
+            </Principal>
+            <Dependent Role="Sejour">
+              <PropertyRef Name="id_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sejour_type_sejour">
+          <End Role="type_sejour" Type="Self.type_sejour" Multiplicity="0..1" />
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_sejour">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Sejour">
+              <PropertyRef Name="id_tsejour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LocamerModelStoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="info_option" EntityType="Self.info_option" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mobile_home" EntityType="Self.mobile_home" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="option" EntityType="Self.option" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sejour" EntityType="Self.Sejour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tarif" EntityType="Self.tarif" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="type_sejour" EntityType="Self.type_sejour" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_info_option_option" Association="Self.FK_info_option_option">
+            <End Role="option" EntitySet="option" />
+            <End Role="info_option" EntitySet="info_option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_info_option_Sejour" Association="Self.FK_info_option_Sejour">
+            <End Role="Sejour" EntitySet="Sejour" />
+            <End Role="info_option" EntitySet="info_option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mobile_home_tarif" Association="Self.FK_mobile_home_tarif">
+            <End Role="tarif" EntitySet="tarif" />
+            <End Role="mobile_home" EntitySet="mobile_home" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_mobile_home" Association="Self.FK_Reservation_mobile_home">
+            <End Role="mobile_home" EntitySet="mobile_home" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Sejour" Association="Self.FK_Reservation_Sejour">
+            <End Role="Sejour" EntitySet="Sejour" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sejour_Client" Association="Self.FK_Sejour_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Sejour" EntitySet="Sejour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sejour_type_sejour" Association="Self.FK_Sejour_type_sejour">
+            <End Role="type_sejour" EntitySet="type_sejour" />
+            <End Role="Sejour" EntitySet="Sejour" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LocamerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id_client" />
+          </Key>
+          <Property Name="id_client" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telephone" Type="Int32" />
+          <NavigationProperty Name="Sejours" Relationship="Self.FK_Sejour_Client" FromRole="Client" ToRole="Sejour" />
+        </EntityType>
+        <EntityType Name="info_option">
+          <Key>
+            <PropertyRef Name="id_option" />
+            <PropertyRef Name="id_sejour" />
+          </Key>
+          <Property Name="quantité" Type="Int32" />
+          <Property Name="durée" Type="Int32" />
+          <Property Name="id_option" Type="Int32" Nullable="false" />
+          <Property Name="id_sejour" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="option" Relationship="Self.FK_info_option_option" FromRole="info_option" ToRole="option" />
+          <NavigationProperty Name="Sejour" Relationship="Self.FK_info_option_Sejour" FromRole="info_option" ToRole="Sejour" />
+        </EntityType>
+        <EntityType Name="mobile_home">
+          <Key>
+            <PropertyRef Name="id_mobile_home" />
+          </Key>
+          <Property Name="id_mobile_home" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code_emplacement" Type="Int32" />
+          <Property Name="capacité" Type="Int32" />
+          <Property Name="id_tarif" Type="Int32" />
+          <Property Name="terrasse_couverte" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="tarif" Relationship="Self.FK_mobile_home_tarif" FromRole="mobile_home" ToRole="tarif" />
+          <NavigationProperty Name="Sejours" Relationship="Self.Reservation" FromRole="mobile_home" ToRole="Sejour" />
+        </EntityType>
+        <EntityType Name="option">
+          <Key>
+            <PropertyRef Name="id_option" />
+          </Key>
+          <Property Name="libelle_option" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_option" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prix_jour" Type="Int32" />
+          <NavigationProperty Name="info_option" Relationship="Self.FK_info_option_option" FromRole="option" ToRole="info_option" />
+        </EntityType>
+        <EntityType Name="Sejour">
+          <Key>
+            <PropertyRef Name="id_sejour" />
+          </Key>
+          <Property Name="id_sejour" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_debut" Type="DateTime" Precision="0" />
+          <Property Name="date_fin" Type="DateTime" Precision="0" />
+          <Property Name="id_client" Type="Int32" />
+          <Property Name="id_tsejour" Type="Int32" />
+          <Property Name="id_option" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Sejour_Client" FromRole="Sejour" ToRole="Client" />
+          <NavigationProperty Name="info_option" Relationship="Self.FK_info_option_Sejour" FromRole="Sejour" ToRole="info_option" />
+          <NavigationProperty Name="type_sejour" Relationship="Self.FK_Sejour_type_sejour" FromRole="Sejour" ToRole="type_sejour" />
+          <NavigationProperty Name="mobile_home" Relationship="Self.Reservation" FromRole="Sejour" ToRole="mobile_home" />
+        </EntityType>
+        <EntityType Name="tarif">
+          <Key>
+            <PropertyRef Name="id_tarif" />
+          </Key>
+          <Property Name="libelle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_tarif" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prix_jour" Type="Int32" />
+          <NavigationProperty Name="mobile_home" Relationship="Self.FK_mobile_home_tarif" FromRole="tarif" ToRole="mobile_home" />
+        </EntityType>
+        <EntityType Name="type_sejour">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="lib_sejour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coeff" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Sejours" Relationship="Self.FK_Sejour_type_sejour" FromRole="type_sejour" ToRole="Sejour" />
+        </EntityType>
+        <Association Name="FK_Sejour_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id_client" />
+            </Principal>
+            <Dependent Role="Sejour">
+              <PropertyRef Name="id_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_info_option_option">
+          <End Role="option" Type="Self.option" Multiplicity="1" />
+          <End Role="info_option" Type="Self.info_option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="option">
+              <PropertyRef Name="id_option" />
+            </Principal>
+            <Dependent Role="info_option">
+              <PropertyRef Name="id_option" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_info_option_Sejour">
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="1" />
+          <End Role="info_option" Type="Self.info_option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sejour">
+              <PropertyRef Name="id_sejour" />
+            </Principal>
+            <Dependent Role="info_option">
+              <PropertyRef Name="id_sejour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mobile_home_tarif">
+          <End Role="tarif" Type="Self.tarif" Multiplicity="0..1" />
+          <End Role="mobile_home" Type="Self.mobile_home" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tarif">
+              <PropertyRef Name="id_tarif" />
+            </Principal>
+            <Dependent Role="mobile_home">
+              <PropertyRef Name="id_tarif" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sejour_type_sejour">
+          <End Role="type_sejour" Type="Self.type_sejour" Multiplicity="0..1" />
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_sejour">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Sejour">
+              <PropertyRef Name="id_tsejour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Reservation">
+          <End Role="mobile_home" Type="Self.mobile_home" Multiplicity="*" />
+          <End Role="Sejour" Type="Self.Sejour" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="LocamerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="info_option" EntityType="Self.info_option" />
+          <EntitySet Name="mobile_home" EntityType="Self.mobile_home" />
+          <EntitySet Name="options" EntityType="Self.option" />
+          <EntitySet Name="Sejours" EntityType="Self.Sejour" />
+          <EntitySet Name="tarifs" EntityType="Self.tarif" />
+          <EntitySet Name="type_sejour" EntityType="Self.type_sejour" />
+          <AssociationSet Name="FK_Sejour_Client" Association="Self.FK_Sejour_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Sejour" EntitySet="Sejours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_info_option_option" Association="Self.FK_info_option_option">
+            <End Role="option" EntitySet="options" />
+            <End Role="info_option" EntitySet="info_option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_info_option_Sejour" Association="Self.FK_info_option_Sejour">
+            <End Role="Sejour" EntitySet="Sejours" />
+            <End Role="info_option" EntitySet="info_option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mobile_home_tarif" Association="Self.FK_mobile_home_tarif">
+            <End Role="tarif" EntitySet="tarifs" />
+            <End Role="mobile_home" EntitySet="mobile_home" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sejour_type_sejour" Association="Self.FK_Sejour_type_sejour">
+            <End Role="type_sejour" EntitySet="type_sejour" />
+            <End Role="Sejour" EntitySet="Sejours" />
+          </AssociationSet>
+          <AssociationSet Name="Reservation" Association="Self.Reservation">
+            <End Role="mobile_home" EntitySet="mobile_home" />
+            <End Role="Sejour" EntitySet="Sejours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LocamerModelStoreContainer" CdmEntityContainer="LocamerEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="LocamerModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="id_client" ColumnName="id_client" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="info_option">
+            <EntityTypeMapping TypeName="LocamerModel.info_option">
+              <MappingFragment StoreEntitySet="info_option">
+                <ScalarProperty Name="quantité" ColumnName="quantité" />
+                <ScalarProperty Name="durée" ColumnName="durée" />
+                <ScalarProperty Name="id_option" ColumnName="id_option" />
+                <ScalarProperty Name="id_sejour" ColumnName="id_sejour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mobile_home">
+            <EntityTypeMapping TypeName="LocamerModel.mobile_home">
+              <MappingFragment StoreEntitySet="mobile_home">
+                <ScalarProperty Name="id_mobile_home" ColumnName="id_mobile_home" />
+                <ScalarProperty Name="code_emplacement" ColumnName="code_emplacement" />
+                <ScalarProperty Name="capacité" ColumnName="capacité" />
+                <ScalarProperty Name="id_tarif" ColumnName="id_tarif" />
+                <ScalarProperty Name="terrasse_couverte" ColumnName="terrasse_couverte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="options">
+            <EntityTypeMapping TypeName="LocamerModel.option">
+              <MappingFragment StoreEntitySet="option">
+                <ScalarProperty Name="libelle_option" ColumnName="libelle_option" />
+                <ScalarProperty Name="id_option" ColumnName="id_option" />
+                <ScalarProperty Name="prix_jour" ColumnName="prix/jour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sejours">
+            <EntityTypeMapping TypeName="LocamerModel.Sejour">
+              <MappingFragment StoreEntitySet="Sejour">
+                <ScalarProperty Name="id_sejour" ColumnName="id_sejour" />
+                <ScalarProperty Name="date_debut" ColumnName="date_debut" />
+                <ScalarProperty Name="date_fin" ColumnName="date_fin" />
+                <ScalarProperty Name="id_client" ColumnName="id_client" />
+                <ScalarProperty Name="id_tsejour" ColumnName="id_tsejour" />
+                <ScalarProperty Name="id_option" ColumnName="id_option" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tarifs">
+            <EntityTypeMapping TypeName="LocamerModel.tarif">
+              <MappingFragment StoreEntitySet="tarif">
+                <ScalarProperty Name="libelle" ColumnName="libelle" />
+                <ScalarProperty Name="id_tarif" ColumnName="id_tarif" />
+                <ScalarProperty Name="prix_jour" ColumnName="prix/jour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="type_sejour">
+            <EntityTypeMapping TypeName="LocamerModel.type_sejour">
+              <MappingFragment StoreEntitySet="type_sejour">
+                <ScalarProperty Name="lib_sejour" ColumnName="lib_sejour" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="coeff" ColumnName="coeff" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Reservation" TypeName="LocamerModel.Reservation" StoreEntitySet="Reservation">
+            <EndProperty Name="mobile_home">
+              <ScalarProperty Name="id_mobile_home" ColumnName="id_mobile_home" />
+            </EndProperty>
+            <EndProperty Name="Sejour">
+              <ScalarProperty Name="id_sejour" ColumnName="id_sejour" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
